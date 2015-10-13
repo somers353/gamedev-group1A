@@ -18,11 +18,11 @@ public class RolloverGameOver: MonoBehaviour {
 
 	/** Method that manages when the mouse is hovered over the image*/	
 	private void OnMouseOver(){
-		guiTexture.texture = rolloverImage;
+		GetComponent<GUITexture>().texture = rolloverImage;
 	}
 	/** Method that manages when the mouse leaves the image*/	
 	private void OnMouseExit(){
-		guiTexture.texture = normalImage;		
+		GetComponent<GUITexture>().texture = normalImage;		
 	}
 	/** Method that manages when the mouse clicks on the image*/	
 	private void OnMouseUp(){

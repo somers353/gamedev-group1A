@@ -67,9 +67,9 @@ public class DoorSensorScript : MonoBehaviour {
 		}
 		else
 		{
-			audio.PlayOneShot(Close);
+			GetComponent<AudioSource>().PlayOneShot(Close);
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = messageText;
+			newGO.GetComponent<GUIText>().text = messageText;
 			newGO.SetActive(true);
 		}
 	}
@@ -77,8 +77,8 @@ public class DoorSensorScript : MonoBehaviour {
 	/** Method that opens the door if the conditions are met in TryToOpenDoor method*/
 	private void OpenDoor()
 	{
-		audio.PlayOneShot (Open);
-		Animation cubeAnimation = cubeGO.animation;
+		GetComponent<AudioSource>().PlayOneShot (Open);
+		Animation cubeAnimation = cubeGO.GetComponent<Animation>();
 		cubeAnimation.Play();
 	}
 }

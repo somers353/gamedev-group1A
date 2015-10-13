@@ -6,7 +6,7 @@ public class GameWonBehaviour : MonoBehaviour
 
 	public void PlaySound()
 	{
-		audio.Play();
+		GetComponent<AudioSource>().Play();
 		soundStarted = true;
 	}
 	
@@ -14,7 +14,7 @@ public class GameWonBehaviour : MonoBehaviour
 	
 	private void Update()
 	{
-		if(soundStarted && !audio.isPlaying)
+		if(soundStarted && !GetComponent<AudioSource>().isPlaying)
 		{
 			// put in here whatever action you want to do when the sound finishes playing
 			// e.g.
