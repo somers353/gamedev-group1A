@@ -25,7 +25,7 @@ public class FadingMessage : MonoBehaviour
 	private void Awake() 
 	{
 		deathAlpha = 2 * alphaStep;;
-		Color startColor = guiText.material.color;
+		Color startColor = GetComponent<GUIText>().material.color;
 		alpha = startColor.a;
 		
 		r = startColor.r;
@@ -41,6 +41,6 @@ public class FadingMessage : MonoBehaviour
 			Destroy(gameObject);
 		
 		Color newColor = new Color(r, g, b, alpha); 
-		guiText.material.color = newColor;
+		GetComponent<GUIText>().material.color = newColor;
 	}
 }

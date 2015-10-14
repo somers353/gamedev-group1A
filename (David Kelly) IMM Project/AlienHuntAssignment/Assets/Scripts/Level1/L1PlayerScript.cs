@@ -54,22 +54,22 @@ public class L1PlayerScript : MonoBehaviour
 		
 		if ("EnginePart" == tag) 
 		{
-			audio.PlayOneShot(EnginePart);
+			GetComponent<AudioSource>().PlayOneShot(EnginePart);
 			partsLeft--;
 
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = enginePart;
+			newGO.GetComponent<GUIText>().text = enginePart;
 			newGO.SetActive(true);
 			soundStarted = true;
 		}
 		
 		if("Key" == tag)
 		{
-			audio.PlayOneShot(FoundKey);
+			GetComponent<AudioSource>().PlayOneShot(FoundKey);
 			keyCount--;
 
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = keyFound;
+			newGO.GetComponent<GUIText>().text = keyFound;
 			newGO.SetActive(true);
 			soundStarted = true;
 		}
@@ -83,7 +83,7 @@ public class L1PlayerScript : MonoBehaviour
 	{
 		if (0 == keyCount && 0 == partsLeft) 
 		{
-			if(soundStarted && !audio.isPlaying)
+			if(soundStarted && !GetComponent<AudioSource>().isPlaying)
 			{
 				Application.LoadLevel("Scene2-Level2");
 			}

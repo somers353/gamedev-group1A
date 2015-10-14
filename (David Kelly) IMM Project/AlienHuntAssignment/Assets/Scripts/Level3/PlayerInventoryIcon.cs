@@ -63,7 +63,7 @@ public class PlayerInventoryIcon : MonoBehaviour
 			Destroy ( hitCollider.gameObject );
 
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = messageText;
+			newGO.GetComponent<GUIText>().text = messageText;
 			newGO.SetActive(true);
 		}
 	} 

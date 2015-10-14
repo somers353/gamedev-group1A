@@ -59,26 +59,26 @@ public class Player : MonoBehaviour
 		if ("EnginePart" == tag) 
 		{
 			partsLeft--;
-			audio.PlayOneShot(EnginePart);
+			GetComponent<AudioSource>().PlayOneShot(EnginePart);
 
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = enginePart;
+			newGO.GetComponent<GUIText>().text = enginePart;
 			newGO.SetActive(true);
 		}
 
 		if("Key" == tag)
 		{
 			keyCount++;
-			audio.PlayOneShot(FoundKey);
+			GetComponent<AudioSource>().PlayOneShot(FoundKey);
 		}
 
 		if ("Badguy" == tag)
 		{
 			loseLife();
-			audio.PlayOneShot(Die);
+			GetComponent<AudioSource>().PlayOneShot(Die);
 
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = died;
+			newGO.GetComponent<GUIText>().text = died;
 			newGO.SetActive(true);
 		}
 	}

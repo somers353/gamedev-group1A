@@ -50,13 +50,13 @@ public class ShipSensor : MonoBehaviour
 
 		if (0 == player.GetPartsLeft()) 
 		{
-			audio.PlayOneShot(shipStart);
+			GetComponent<AudioSource>().PlayOneShot(shipStart);
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = complete;
+			newGO.GetComponent<GUIText>().text = complete;
 			newGO.SetActive(true);	
 			soundStarted=true;
 
-			if(soundStarted && !audio.isPlaying)
+			if(soundStarted && !GetComponent<AudioSource>().isPlaying)
 			{
 				Application.LoadLevel("Scene6-GameWon");
 			}
@@ -65,7 +65,7 @@ public class ShipSensor : MonoBehaviour
 		else
 		{
 			GameObject newGO = (GameObject)Instantiate(fadingMessagePrefab);
-			newGO.guiText.text = getParts;
+			newGO.GetComponent<GUIText>().text = getParts;
 			newGO.SetActive(true);
 		}
 		
