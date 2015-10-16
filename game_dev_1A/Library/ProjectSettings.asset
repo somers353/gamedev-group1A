@@ -263,8 +263,12 @@ PlayerSettings:
   ps4attrib3DSupport: 0
   ps4attribShareSupport: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   ps4IncludedModules: []
 =======
+>>>>>>> upstream/master
+=======
+  ps4IncludedModules: []
 >>>>>>> upstream/master
   monoEnv: 
   psp2Splashimage: {fileID: 0}
