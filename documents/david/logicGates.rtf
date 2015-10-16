@@ -1,0 +1,70 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25380\viewh14500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 public boolean andGate(Object a, Object b)\{\
+	if(a==1 && b==1)\{\
+		return true;\
+	\}\
+	\
+	return false;\
+\}\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+public boolean orGate(Object a, Object b)\{\
+	if(a==1 || b==1)\{\
+		return true;\
+	\}\
+	\
+	return false;\
+\}\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 public boolean nandGate(Object a, Object b)\{\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	if(a==1 && b==1)\{\
+		return false;\
+	\}\
+	\
+	return true;\
+\}\
+\
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+public boolean norGate(Object a, Object b)\{\
+	if(a==1 || b==1)\{\
+		return false;\
+	\}\
+	\
+	return true;\
+\}\
+\
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+public boolean notGate(Object a)\{\
+	if(a==1)\{\
+		return false;\
+	\}\
+	\
+	return true;\
+\}\
+\
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+public boolean exorGate(Object a, Object b)\{\
+	if((a==1 && b==1) || (a==0 && b==0)\{\
+		return false;\
+	\}\
+	\
+	return true;\
+\}\
+\
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////}
