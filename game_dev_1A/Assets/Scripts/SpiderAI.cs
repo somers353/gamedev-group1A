@@ -7,7 +7,7 @@ public class SpiderAI : MonoBehaviour {
 	public SphereCollider terrirory;
 	bool playerInTerritory, hasPlayerItems;
 	public Transform target;
-	public float speed = 3f, attackDist = 1f;
+	public float speed = 3f, attackDist = 1f, knockBackRadius = 5f, knockBackPower = 30f, minDistance = 10f;
 	public Animation walk;
 	int numItems;
 
@@ -15,7 +15,7 @@ public class SpiderAI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
-		controller = player.GetComponent (PlayerController);
+		controller = player.GetComponent <PlayerController>();
 		playerInTerritory = false;
 		hasPlayerItems = false;
 	}
@@ -65,7 +65,9 @@ public class SpiderAI : MonoBehaviour {
 
 	void RunFromPlayer()
 	{
-
+		Vector3 direction = transform.position - target.position;
+		direction.Normalize ();
+		transform.position = Vector3.MoveTowards (transform.position, direction*minDistance, Time.deltaTime*speed);
 	}
 
 	void Attack()
@@ -76,11 +78,32 @@ public class SpiderAI : MonoBehaviour {
 			numItems = controller.numItems;
 			controller.hasItems = false;
 			controller.numItems = 0;
-			RunFromPlayer();
+			speed = 2f;
+			controller.playerHealth -= 25;
+			knockBack ();
+			RunFromPlayer ();
+		} 
+		else 
+		{
+			controller.playerHealth -= 25;
+			knockBack();
+			StartCoroutine (AttackPause ());
 		}
+	}
 
-		controller.playerHealth -= 10;
-		StartCoroutine (AttackPause());
+	//Use ExplosionForce to knock the player back after an attack
+	void knockBack()
+	{
+		Vector3 knockBackOrigin = transform.position;
+		Collider[] colliders = Physics.OverlapSphere (knockBackOrigin, knockBackRadius);
+		foreach (Collider hit in colliders) 
+		{
+			Rigidbody rb = hit.GetComponent<Rigidbody>();
+			if(rb != null)
+			{
+				rb.AddExplosionForce(knockBackPower, knockBackOrigin, knockBackRadius, 3f);
+			}
+		}
 	}
 
 	//Pause for 2 seconds after attack to allow player to recover

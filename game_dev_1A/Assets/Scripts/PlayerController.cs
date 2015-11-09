@@ -3,9 +3,9 @@ using System.Collections;
 public class PlayerController : BaseController {
 	// Use this for initialization
 	protected Animator animator;
-	bool hasItems;
-	int numItems;
-	int playerHealth;
+	public bool hasItems;
+	public int numItems;
+	public int playerHealth;
 
 	protected override void Start () {
 		base.Start (); // Call BaseController.Start, which will call Initialize. 
