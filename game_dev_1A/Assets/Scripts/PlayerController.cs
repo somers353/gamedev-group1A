@@ -3,9 +3,14 @@ using System.Collections;
 public class PlayerController : BaseController {
 	// Use this for initialization
 	protected Animator animator;
+	public bool hasItems;
+	public int numItems;
+	public int playerHealth;
+
 	protected override void Start () {
 		base.Start (); // Call BaseController.Start, which will call Initialize. 
 		animator = GetComponent<Animator> ();
+		playerHealth = 100;
 	}
 	
 	// Update is called once per frame
