@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Spider
+  - Water
+  - Respawn
+  - New Tag
   layers:
   - Default
   - TransparentFX
