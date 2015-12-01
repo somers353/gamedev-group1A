@@ -36,14 +36,18 @@ public class Player : MonoBehaviour {
 		if ("Water" == tag)
 		{
 			loseLife();
-			GetComponent<AudioSource>().PlayOneShot(Die);
+		}
+
+		else if ("Badguy" == tag)
+		{
+			loseLife();
 		}
 	}
 
 	/** Method that manages the re spawning of the player after he dies*/
 	private void MoveToStartPosition()
 	{
-		GameObject respawnGO = ChooseRandomObjectWithTag ("Respawn");
+		GameObject respawnGO = ChooseRandomObjectWithTag ("Spawn");
 		Vector3 startPosition = respawnGO.transform.position;
 		transform.position = startPosition;
 	}
@@ -77,12 +81,6 @@ public class Player : MonoBehaviour {
 	private void loseLife()
 	{
 		MoveToStartPosition ();
-		livesLeft--;	
-		
-		if (0 == livesLeft)
-		{
-			//Application.LoadLevel();
-		}
 	}
 
 }
