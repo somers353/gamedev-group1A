@@ -31,8 +31,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		public bool hasItems = false;
 		public int numItems = 0;
 		public int playerHealth = 100;
-		HUD hud;
 		public GameObject camera;
+		private HUD hud;
 
 
 		void Start()
@@ -226,13 +226,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
 				m_Animator.applyRootMotion = false;
-			}
-		}
-
-		void OnTriggerStay(Collider c)
-		{
-			if (c.gameObject.tag == "Platform") {
-				this.transform.parent = c.transform.parent;
 			}
 		}
 

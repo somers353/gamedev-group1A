@@ -2,22 +2,29 @@
 using System.Collections;
 
 public class SpiderAI : MonoBehaviour {
-	GameObject player;
-	PlayerController controller;
+	private GameObject player;
+	private UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter controller;
+	private bool playerInTerritory, hasPlayerItems, paused;
+	private int numItems, waypointCounter = 0;
+	private NavMeshAgent agent;
+	public GameObject logicGate;
 	public SphereCollider terrirory;
-	bool playerInTerritory, hasPlayerItems;
 	public Transform target;
-	public float speed = 3f, attackDist = 1f, knockBackRadius = 5f, knockBackPower = 30f, minDistance = 10f;
-	public Animation walk;
-	int numItems;
+	public float speed = 3f, attackDist = 1f, knockBackRadius = 8f, knockBackPower = 300f, minDistance = 10f;
+	public Transform destination;
+	public Transform[] waypoints;
+
 
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
-		controller = player.GetComponent <PlayerController>();
+		controller = player.GetComponent <UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>();
 		playerInTerritory = false;
 		hasPlayerItems = false;
+		paused = false;
+		agent = GetComponent<NavMeshAgent> ();
+		agent.destination = waypoints [waypointCounter].position;
 	}
 	
 	// Update is called once per frame
@@ -25,11 +32,14 @@ public class SpiderAI : MonoBehaviour {
 		if(playerInTerritory && !hasPlayerItems)
 		{
 			MoveToPlayer();
-		}
-
-		if(hasPlayerItems)
-		{
-			RunFromPlayer();
+		}else {
+			if(Vector3.Distance(transform.position, agent.destination) < 1){
+				waypointCounter++;
+				if(waypointCounter > 2){
+					waypointCounter = 0;
+				}
+			}
+			agent.destination = waypoints[waypointCounter].position;
 		}
 	}
 
@@ -38,6 +48,19 @@ public class SpiderAI : MonoBehaviour {
 		if(c.gameObject == player)
 		{
 			playerInTerritory = true;
+
+			//If the player makes contact while the spider is running, kill spider and spawn stolen items
+			if(hasPlayerItems)
+			{
+				float dist = 0.5f;
+				for(int i = 1; i <= numItems; i++)
+				{
+					Instantiate(logicGate, new Vector3(transform.position.x + dist, transform.position.y + dist, transform.position.z + dist), Quaternion.identity);
+					dist += 1f;
+				}
+
+				Destroy(this.gameObject);
+			}
 		}
 	}
 
@@ -54,12 +77,12 @@ public class SpiderAI : MonoBehaviour {
 		transform.LookAt (target.position);
 		transform.Rotate (new Vector3(0,-90,0), Space.Self);
 
-		if (Vector3.Distance (transform.position, target.position) > attackDist) {
-			transform.Translate (new Vector3 (speed * Time.deltaTime, 0, 0));
-		} 
-		else 
-		{
-			Attack();
+		if (!paused) {
+			if (Vector3.Distance (transform.position, target.position) > attackDist) {
+				agent.destination = player.transform.position;
+			} else {
+				Attack ();
+			}
 		}
 	}
 
@@ -72,21 +95,27 @@ public class SpiderAI : MonoBehaviour {
 
 	void Attack()
 	{
+		//If the player is holding items, attack the player, steal the items and run away
 		if (controller.hasItems) 
 		{
 			hasPlayerItems = true;
 			numItems = controller.numItems;
 			controller.hasItems = false;
 			controller.numItems = 0;
-			speed = 2f;
+			controller.changeItems();
 			controller.playerHealth -= 25;
+			controller.loseHealth();
+			speed = 2f;
 			knockBack ();
+			decreaseSphereRadius();
 			RunFromPlayer ();
 		} 
 		else 
 		{
 			controller.playerHealth -= 25;
+			controller.loseHealth();
 			knockBack();
+			paused = true;
 			StartCoroutine (AttackPause ());
 		}
 	}
@@ -98,10 +127,11 @@ public class SpiderAI : MonoBehaviour {
 		Collider[] colliders = Physics.OverlapSphere (knockBackOrigin, knockBackRadius);
 		foreach (Collider hit in colliders) 
 		{
-			Rigidbody rb = hit.GetComponent<Rigidbody>();
-			if(rb != null)
-			{
-				rb.AddExplosionForce(knockBackPower, knockBackOrigin, knockBackRadius, 3f);
+			if(hit.tag == "Player"){
+				Rigidbody rb = hit.GetComponent<Rigidbody>();
+				if(rb != null){
+					rb.AddExplosionForce(knockBackPower, knockBackOrigin, knockBackRadius, 0.8f);
+				}
 			}
 		}
 	}
@@ -109,6 +139,13 @@ public class SpiderAI : MonoBehaviour {
 	//Pause for 2 seconds after attack to allow player to recover
 	IEnumerator AttackPause()
 	{
-		yield return new WaitForSeconds(2.0f);
+		yield return new WaitForSeconds(3);
+		paused = false;
+	}
+
+	IEnumerator decreaseSphereRadius()
+	{
+		yield return new WaitForSeconds (2);
+		terrirory.radius = 0.5f;
 	}
 }
